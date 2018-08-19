@@ -36,46 +36,46 @@ matrix:
       python: "2.7"
       env:
         - PACKAGE_LEVEL=latest
-#    - os: linux
-#      language: python
-#      python: "3.4"
-#      env:
-#        - PACKAGE_LEVEL=minimum
+    - os: linux
+      language: python
+      python: "3.4"
+      env:
+        - PACKAGE_LEVEL=minimum
     - os: linux
       language: python
       python: "3.4"
       env:
         - PACKAGE_LEVEL=latest
-#    - os: linux
-#      language: python
-#      python: "3.5"
-#      env:
-#        - PACKAGE_LEVEL=minimum
-#    - os: linux
-#      language: python
-#      python: "3.5"
-#      env:
-#        - PACKAGE_LEVEL=latest
-#    - os: linux
-#      language: python
-#      python: "3.6"
-#      env:
-#        - PACKAGE_LEVEL=minimum
-#    - os: linux
-#      language: python
-#      python: "3.6"
-#      env:
-#        - PACKAGE_LEVEL=latest
-#    - os: linux
-#      language: python
-#      python: "3.7"
-#      env:
-#        - PACKAGE_LEVEL=minimum
-#    - os: linux
-#      language: python
-#      python: "3.7"
-#      env:
-#        - PACKAGE_LEVEL=latest
+    - os: linux
+      language: python
+      python: "3.5"
+      env:
+        - PACKAGE_LEVEL=minimum
+    - os: linux
+      language: python
+      python: "3.5"
+      env:
+        - PACKAGE_LEVEL=latest
+    - os: linux
+      language: python
+      python: "3.6"
+      env:
+        - PACKAGE_LEVEL=minimum
+    - os: linux
+      language: python
+      python: "3.6"
+      env:
+        - PACKAGE_LEVEL=latest
+    - os: linux
+      language: python
+      python: "3.7"
+      env:
+        - PACKAGE_LEVEL=minimum
+    - os: linux
+      language: python
+      python: "3.7"
+      env:
+        - PACKAGE_LEVEL=latest
     - os: linux
       language: python
       python: "3.8"
@@ -86,16 +86,16 @@ matrix:
       python: "3.8"
       env:
         - PACKAGE_LEVEL=latest
-#    - os: linux
-#      language: python
-#      python: "pypy"  # currently Python 2.7.13, PyPy 7.1.1
-#      env:
-#        - PACKAGE_LEVEL=minimum
-#    - os: linux
-#      language: python
-#      python: "pypy"  # currently Python 2.7.13, PyPy 7.1.1
-#      env:
-#        - PACKAGE_LEVEL=latest
+    - os: linux
+      language: python
+      python: "pypy"  # currently Python 2.7.13, PyPy 7.1.1
+      env:
+        - PACKAGE_LEVEL=minimum
+    - os: linux
+      language: python
+      python: "pypy"  # currently Python 2.7.13, PyPy 7.1.1
+      env:
+        - PACKAGE_LEVEL=latest
 # TODO: pypy3 disabled due to install error with typed-ast (from pylint)
 #    - os: linux
 #      language: python
@@ -108,30 +108,30 @@ matrix:
 #      python: "pypy3"  # currently Python 3.6.1, PyPy 7.1.1-beta0
 #      env:
 #        - PACKAGE_LEVEL=latest
-#    - os: osx
-#      language: generic
-#      python:
-#      env:
-#        - PYTHON=2
-#        - PACKAGE_LEVEL=minimum
-#    - os: osx
-#      language: generic
-#      python:
-#      env:
-#        - PYTHON=2
-#        - PACKAGE_LEVEL=latest
-#    - os: osx
-#      language: generic
-#      python:
-#      env:
-#        - PYTHON=3
-#        - PACKAGE_LEVEL=minimum
-#    - os: osx
-#      language: generic
-#      python:
-#      env:
-#        - PYTHON=3
-#        - PACKAGE_LEVEL=latest
+    - os: osx
+      language: generic
+      python:
+      env:
+        - PYTHON=2
+        - PACKAGE_LEVEL=minimum
+    - os: osx
+      language: generic
+      python:
+      env:
+        - PYTHON=2
+        - PACKAGE_LEVEL=latest
+    - os: osx
+      language: generic
+      python:
+      env:
+        - PYTHON=3
+        - PACKAGE_LEVEL=minimum
+    - os: osx
+      language: generic
+      python:
+      env:
+        - PYTHON=3
+        - PACKAGE_LEVEL=latest
 
 before_install:
   - if [[ "$TRAVIS_BRANCH" == "manual-ci-run" ]]; then

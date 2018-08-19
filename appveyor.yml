@@ -6,9 +6,9 @@ environment:
       UNIX_PATH: none
       PYTHON_CMD: python
 
-#    - TOX_ENV: win64_py27_64
-#      UNIX_PATH: none
-#      PYTHON_CMD: python
+    - TOX_ENV: win64_py27_64
+      UNIX_PATH: none
+      PYTHON_CMD: python
 
 # Note: Python 3.4 is disabled on Windows because lxml does not install anymore,
 #       it fails with missing include files from libxml2 and libxslt, although
@@ -23,29 +23,29 @@ environment:
 #      UNIX_PATH: none
 #      PYTHON_CMD: python
 
-#    - TOX_ENV: win64_py35_32
-#      UNIX_PATH: none
-#      PYTHON_CMD: python
+    - TOX_ENV: win64_py35_32
+      UNIX_PATH: none
+      PYTHON_CMD: python
 
-#    - TOX_ENV: win64_py35_64
-#      UNIX_PATH: none
-#      PYTHON_CMD: python
+    - TOX_ENV: win64_py35_64
+      UNIX_PATH: none
+      PYTHON_CMD: python
 
-#    - TOX_ENV: win64_py36_32
-#      UNIX_PATH: none
-#      PYTHON_CMD: python
+    - TOX_ENV: win64_py36_32
+      UNIX_PATH: none
+      PYTHON_CMD: python
 
-#    - TOX_ENV: win64_py36_64
-#      UNIX_PATH: none
-#      PYTHON_CMD: python
+    - TOX_ENV: win64_py36_64
+      UNIX_PATH: none
+      PYTHON_CMD: python
 
-#    - TOX_ENV: win64_py37_32
-#      UNIX_PATH: none
-#      PYTHON_CMD: python
+    - TOX_ENV: win64_py37_32
+      UNIX_PATH: none
+      PYTHON_CMD: python
 
-#    - TOX_ENV: win64_py37_64
-#      UNIX_PATH: none
-#      PYTHON_CMD: python
+    - TOX_ENV: win64_py37_64
+      UNIX_PATH: none
+      PYTHON_CMD: python
 
 #    - TOX_ENV: win64_py38_32
 #      UNIX_PATH: none
@@ -62,15 +62,15 @@ environment:
 #      PYTHON_CMD: python2.7
 #      PIP_CMD: pip
 
-#    - TOX_ENV: cygwin64_py27
-#      UNIX_PATH: C:\cygwin64\bin
-#      PYTHON_CMD: python2.7
-#      PIP_CMD: pip
+    - TOX_ENV: cygwin64_py27
+      UNIX_PATH: C:\cygwin64\bin
+      PYTHON_CMD: python2.7
+      PIP_CMD: pip
 
-#    - TOX_ENV: cygwin32_py36
-#      UNIX_PATH: C:\cygwin\bin
-#      PYTHON_CMD: python3.6m
-#      PIP_CMD: pip
+    - TOX_ENV: cygwin32_py36
+      UNIX_PATH: C:\cygwin\bin
+      PYTHON_CMD: python3.6m
+      PIP_CMD: pip
 
     - TOX_ENV: cygwin64_py36
       UNIX_PATH: C:\cygwin64\bin
@@ -103,7 +103,7 @@ environment:
 
 configuration:
 # These values will become the values of the PACKAGE_LEVEL env.var.
-#  - minimum
+  - minimum
   - latest
 
 install:
