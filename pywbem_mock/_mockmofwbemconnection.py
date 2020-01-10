@@ -35,9 +35,10 @@ from pywbem.mof_compiler import MOFWBEMConnection
 
 from pywbem._utils import _format
 from ._resolvermixin import ResolverMixin
+from ._inmemoryrepository import InMemoryRepository
 
-# Issue # 2062 Refactor this into a class that represents the repository
-# data store.
+# Issue #2062 TODO/ks Remove this code and use the methods in _WBEMConnection
+# in their place
 
 
 class _MockMOFWBEMConnection(MOFWBEMConnection, ResolverMixin):
@@ -65,11 +66,7 @@ class _MockMOFWBEMConnection(MOFWBEMConnection, ResolverMixin):
         """
         super(_MockMOFWBEMConnection, self).__init__(conn=faked_conn_object)
 
-        # Reassign the variables that represent the repository to the
-        # faked_conn_object so that we have a common repository
-        self.qualifiers = faked_conn_object.qualifiers
-        self.instances = faked_conn_object.instances
-        self.classes = faked_conn_object.classes
+        self.repo = InMemoryRepository(faked_conn_object)
 
     def CreateClass(self, *args, **kwargs):
         """
@@ -88,9 +85,9 @@ class _MockMOFWBEMConnection(MOFWBEMConnection, ResolverMixin):
             self.compile_ordered_classnames.append(cc.classname)
 
             # The following generates an exception for each new ns
-            self.classes[self.default_namespace][cc.classname] = cc
+            self.repo.classes[self.default_namespace][cc.classname] = cc
         except KeyError:
-            self.classes[namespace] = \
+            self.repo.classes[namespace] = \
                 NocaseDict({cc.classname: cc})
 
         # Validate that references and embedded instance properties, methods,
@@ -139,10 +136,10 @@ class _MockMOFWBEMConnection(MOFWBEMConnection, ResolverMixin):
                         raise
 
         ccr = self.conn._resolve_class(  # pylint: disable=protected-access
-            cc, namespace, self.qualifiers[namespace])
-        if namespace not in self.classes:
-            self.classes[namespace] = NocaseDict()
-        self.classes[namespace][ccr.classname] = ccr
+            cc, namespace, self.repo.qualifiers[namespace])
+        if namespace not in self.repo.classes:
+            self.repo.classes[namespace] = NocaseDict()
+        self.repo.classes[namespace][ccr.classname] = ccr
 
         try:
             self.class_names[namespace].append(ccr.classname)
@@ -190,21 +187,21 @@ class _MockMOFWBEMConnection(MOFWBEMConnection, ResolverMixin):
             inst.path = CIMInstanceName.from_instance(
                 cls, inst, namespace=self.default_namespace)
 
-        if self.default_namespace not in self.instances:
-            self.instances[self.default_namespace] = {}
+        if self.default_namespace not in self.repo.instances:
+            self.repo.instances[self.default_namespace] = {}
 
         # exception if duplicate. NOTE: compiler overrides this with
         # modify instance.
-        if inst.path in self.instances[self.default_namespace]:
+        if inst.path in self.repo.instances[self.default_namespace]:
             raise CIMError(
                 CIM_ERR_ALREADY_EXISTS,
                 _format('CreateInstance failed. Instance with path {0!A} '
                         'already exists in mock repository', inst.path))
         try:
-            self.instances[self.default_namespace][inst.path] = inst
+            self.repo.instances[self.default_namespace][inst.path] = inst
         except KeyError:
-            self.instances[self.default_namespace] = {}
-            self.instances[self.default_namespace][inst.path] = inst
+            self.repo.instances[self.default_namespace] = {}
+            self.repo.instances[self.default_namespace][inst.path] = inst
 
         return inst.path
 
@@ -218,23 +215,24 @@ class _MockMOFWBEMConnection(MOFWBEMConnection, ResolverMixin):
         the MOF must include the instance alias on each created instance.
         """
         mod_inst = args[0] if args else kwargs['ModifiedInstance']
-        if self.default_namespace not in self.instances:
+        if self.default_namespace not in self.repo.instances:
             raise CIMError(
                 CIM_ERR_INVALID_NAMESPACE,
                 _format('ModifyInstance failed. No instance repo exists. '
                         'Use compiler instance alias to set path on '
                         'instance declaration. inst: {0!A}', mod_inst))
 
-        if mod_inst.path not in self.instances[self.default_namespace]:
+        if mod_inst.path not in self.repo.instances[self.default_namespace]:
             raise CIMError(
                 CIM_ERR_NOT_FOUND,
                 _format('ModifyInstance failed. No instance exists. '
                         'Use compiler instance alias to set path on '
                         'instance declaration. inst: {0!A}', mod_inst))
 
-        orig_instance = self.instances[self.default_namespace][mod_inst.path]
-        orig_instance.update(mod_inst.properties)
-        self.instances[self.default_namespace][mod_inst.path] = orig_instance
+        # Finally update the instance in the repository from the modified inst
+        orig_inst = self.repo.instances[self.default_namespace][mod_inst.path]
+        orig_inst.update(mod_inst.properties)
+        self.repo.instances[self.default_namespace][mod_inst.path] = orig_inst
 
     def _get_class(self, superclass, namespace=None,
                    local_only=False, include_qualifiers=True,

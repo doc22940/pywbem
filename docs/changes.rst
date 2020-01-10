@@ -118,7 +118,7 @@ Released: not yet
 * Made the `MOFWBEMConnection` class internal and undocumented. It has an
   inconsistent semantics and should not be used by users. (See issue #2001).
 
-* Removed the `FakedWBEMConnection` init argument `conn_lite`. The lighe mode
+* Removed the `FakedWBEMConnection` init argument `conn_lite`. The lite mode
   turned out too simplistic for mock testing and of no real value, while
   adding complexity.  (See issue #1959)
 
